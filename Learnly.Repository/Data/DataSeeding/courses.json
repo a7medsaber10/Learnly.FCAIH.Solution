@@ -1,0 +1,128 @@
+[
+    {
+        "Name": "Introduction to Computer Science",
+        "Description": "Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Maecenas porttitor congue massa. Fusce posuere, magna sed pulvinar ultricies, purus lectus malesuada libero, sit amet commodo magna eros quis urna.",
+        "PictureUrl": "images/courses/sb-ang1.png",
+        "CategoryId": 1,
+        "DepartmentId": 1
+    },
+    {
+        "Name": "Artficial intelligence",
+        "Description": "Nunc viverra imperdiet enim. Fusce est. Vivamus a tellus.",
+        "PictureUrl": "images/courses/sb-ang2.png",
+        "CategoryId": 1,
+        "DepartmentId": 1
+    },
+    {
+        "Name": "Introduction to information technology",
+        "Description": "Suspendisse dui purus, scelerisque at, vulputate vitae, pretium mattis, nunc. Mauris eget neque at sem venenatis eleifend. Ut nonummy.",
+        "PictureUrl": "images/products/sb-core1.png",
+        "CategoryId": 2,
+        "DepartmentId": 1
+    },
+    {
+        "Name": "Chemstry",
+        "Description": "Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Proin pharetra nonummy pede. Mauris et orci.",
+        "PictureUrl": "images/products/sb-core2.png",
+        "CategoryId": 3,
+        "DepartmentId": 2
+    },
+    {
+        "Name": "Computer Graphics",
+        "Description": "Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Maecenas porttitor congue massa. Fusce posuere, magna sed pulvinar ultricies, purus lectus malesuada libero, sit amet commodo magna eros quis urna.",
+        "PictureUrl": "images/products/sb-react1.png",
+        "CategoryId": 4,
+        "DepartmentId": 1
+    },
+    {
+        "Name": "Germany Language",
+        "Description": "Aenean nec lorem. In porttitor. Donec laoreet nonummy augue.",
+        "PictureUrl": "images/products/sb-ts1.png",
+        "CategoryId": 4,
+        "DepartmentId": 5
+    },
+    {
+        "Name": "Biology",
+        "Description": "Fusce posuere, magna sed pulvinar ultricies, purus lectus malesuada libero, sit amet commodo magna eros quis urna.",
+        "PictureUrl": "images/products/hat-core1.png",
+        "CategoryId": 5,
+        "DepartmentId": 2
+    },
+    {
+        "Name": "Robotics",
+        "Description": "Suspendisse dui purus, scelerisque at, vulputate vitae, pretium mattis, nunc. Mauris eget neque at sem venenatis eleifend. Ut nonummy.",
+        "PictureUrl": "images/products/hat-react1.png",
+        "CategoryId": 6,
+        "DepartmentId": 1
+    },
+    {
+        "Name": "Machine Learning",
+        "Description": "Fusce posuere, magna sed pulvinar ultricies, purus lectus malesuada libero, sit amet commodo magna eros quis urna.",
+        "PictureUrl": "images/products/hat-react2.png",
+        "CategoryId": 6,
+        "DepartmentId": 1
+    },
+    {
+        "Name": "Accounting",
+        "Description": "Nunc viverra imperdiet enim. Fusce est. Vivamus a tellus.",
+        "PictureUrl": "images/products/glove-code1.png",
+        "CategoryId": 7,
+        "DepartmentId": 3
+    },
+    {
+        "Name": "Algorithms",
+        "Description": "Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Proin pharetra nonummy pede. Mauris et orci.",
+        "PictureUrl": "images/products/glove-code2.png",
+        "CategoryId": 7,
+        "DepartmentId": 1
+    },
+    {
+        "Name": "Team Management",
+        "Description": "Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Maecenas porttitor congue massa.",
+        "PictureUrl": "images/products/glove-react1.png",
+        "CategoryId": 4,
+        "DepartmentId": 4
+    },
+    {
+        "Name": "Communication Skills",
+        "Description": "Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Proin pharetra nonummy pede. Mauris et orci.",
+        "PictureUrl": "images/products/glove-react2.png",
+        "CategoryId": 4,
+        "DepartmentId": 4
+    },
+    {
+        "Name": "Physics",
+        "Description": "Suspendisse dui purus, scelerisque at, vulputate vitae, pretium mattis, nunc. Mauris eget neque at sem venenatis eleifend. Ut nonummy.",
+        "PictureUrl": "images/products/boot-redis1.png",
+        "CategoryId": 3,
+        "DepartmentId": 6
+    },
+    {
+        "Name": "English",
+        "Description": "Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Maecenas porttitor congue massa. Fusce posuere, magna sed pulvinar ultricies, purus lectus malesuada libero, sit amet commodo magna eros quis urna.",
+        "PictureUrl": "images/products/boot-core2.png",
+        "CategoryId": 3,
+        "DepartmentId": 2
+    },
+    {
+        "Name": "Arabic",
+        "Description": "Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Proin pharetra nonummy pede. Mauris et orci.",
+        "PictureUrl": "images/products/boot-core1.png",
+        "CategoryId": 3,
+        "DepartmentId": 2
+    },
+    {
+        "Name": "Data Structure",
+        "Description": "Aenean nec lorem. In porttitor. Donec laoreet nonummy augue.",
+        "PictureUrl": "images/products/boot-ang2.png",
+        "CategoryId": 3,
+        "DepartmentId": 1
+    },
+    {
+        "Name": "Database",
+        "Description": "Suspendisse dui purus, scelerisque at, vulputate vitae, pretium mattis, nunc. Mauris eget neque at sem venenatis eleifend. Ut nonummy.",
+        "PictureUrl": "images/products/boot-ang1.png",
+        "CategoryId": 3,
+        "DepartmentId": 1
+    }
+]
