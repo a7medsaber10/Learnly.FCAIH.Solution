@@ -1,6 +1,7 @@
 ﻿using Learnly.APIs.DTOs;
 using Learnly.APIs.Errors;
 using Learnly.Core.Entities.Identity;
+using Learnly.Core.Services.Contract;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
@@ -11,11 +12,13 @@ namespace Learnly.APIs.Controllers
     {
         private readonly UserManager<AppUser> _userManager;
         private readonly SignInManager<AppUser> _signInManager;
+        private readonly IAuthService _authService;
 
-        public AccountController(UserManager<AppUser> userManager, SignInManager<AppUser> signInManager)
+        public AccountController(UserManager<AppUser> userManager, SignInManager<AppUser> signInManager, IAuthService authService)
         {
             _userManager = userManager;
             _signInManager = signInManager;
+            _authService = authService;
         }
 
         [HttpPost("login")]
@@ -40,7 +43,7 @@ namespace Learnly.APIs.Controllers
                 {
                     DisplayName = user.DisplayName,
                     Email = user.Email,
-                    Token = "This will be token"
+                    Token = await _authService.CreateTokenAsync(user, _userManager)
                 });
             }
         }
@@ -64,7 +67,7 @@ namespace Learnly.APIs.Controllers
             {
                 DisplayName = user.DisplayName,
                 Email = user.Email,
-                Token = "This Will Be Token"
+                Token = await _authService.CreateTokenAsync(user, _userManager)
             });
         }
     }

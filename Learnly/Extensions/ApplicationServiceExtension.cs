@@ -24,6 +24,8 @@ namespace Learnly.APIs.Extensions
 
             services.AddScoped(typeof(IEnrollmentServicee), typeof(EnrollmentService));
 
+            services.AddScoped(typeof(IAuthService), typeof(AuthService));
+
 
             // Handling Vaidation Error
             services.Configure<ApiBehaviorOptions>(
