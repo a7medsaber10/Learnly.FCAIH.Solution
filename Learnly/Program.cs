@@ -11,7 +11,9 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.IdentityModel.Tokens;
 using StackExchange.Redis;
+using System.Text;
 
 namespace Learnly
 {
@@ -47,10 +49,29 @@ namespace Learnly
             });
 
             
-            builder.Services.AddApplicationServices(); // Extension method
+            builder.Services.AddApplicationServices (); // Extension method
 
             builder.Services.AddIdentity<AppUser, IdentityRole>().AddEntityFrameworkStores<AppIdentityDbContext>();
 
+            builder.Services.AddAuthentication().AddJwtBearer("Bearer", options =>
+            {
+                options.TokenValidationParameters = new TokenValidationParameters()
+                {
+                    ValidateIssuer = true,
+                    ValidIssuer = builder.Configuration["JWT:ValidIssuer"],
+
+                    ValidateAudience = true,
+                    ValidAudience = builder.Configuration["JWT:ValidAudience"],
+
+                    ValidateLifetime = true,
+
+                    ClockSkew = TimeSpan.Zero,
+
+                    ValidateIssuerSigningKey = true,
+                    IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(builder.Configuration["JWT:AuthKey"] ?? string.Empty))
+                };
+
+            });
 
             #endregion
 

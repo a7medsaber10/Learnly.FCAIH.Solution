@@ -6,6 +6,8 @@ using Learnly.Core.Entities;
 using Learnly.Core.Repositories.Contract;
 using Learnly.Core.Specifications;
 using Learnly.Core.Specifications.CourseSpecifications;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
@@ -32,6 +34,7 @@ namespace Learnly.APIs.Controllers
         }
 
         [HttpGet]
+        [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
         public async Task<ActionResult<IReadOnlyList<CourseDTO>>> GetCourses([FromQuery]CourseSpecificationParameters parameters)
         {
             var spec = new CourseWithDeptartmentAndCategorySpec(parameters);

@@ -15,7 +15,7 @@ namespace Learnly.APIs.Extensions
     {
         public static IServiceCollection AddApplicationServices(this IServiceCollection services) 
         {
-            //services.AddScoped(typeof(IGenericRepository<>), typeof(GenericRepository<>));
+            services.AddScoped(typeof(IGenericRepository<>), typeof(GenericRepository<>));
             services.AddScoped(typeof(IUnitOfWork), typeof(UnitOfWork));
 
             services.AddScoped(typeof(ICourseSelectionRepository), typeof(CourseSelectionRepository));
