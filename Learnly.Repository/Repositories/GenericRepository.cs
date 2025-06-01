@@ -19,6 +19,22 @@ namespace Learnly.Repository.Repositories
         {
             _dbContext = dbContext;
         }
+
+        public async Task AddAsync(T entity)
+        {
+            await _dbContext.AddAsync(entity);
+        }
+
+        public async void UpdateAsync(T entity)
+        {
+            _dbContext.Update(entity);
+        }
+
+        public void DeleteAsync(T entity)
+        {
+            _dbContext.Remove(entity);
+        }
+
         public async Task<IReadOnlyList<T>> GetAllAsync()
         {
             // Temprorily we will use this solution until we use specification design pattern to include related data (department, category) 

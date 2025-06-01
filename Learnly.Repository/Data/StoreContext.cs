@@ -1,4 +1,5 @@
-﻿using Learnly.Core.Entities;
+﻿using Learnly.Core.Enrollment_Aggregate;
+using Learnly.Core.Entities;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
@@ -26,6 +27,8 @@ namespace Learnly.Repository.Data
         public DbSet<Course> Courses { get; set; }
         public DbSet<CourseCategory> CourseCategories { get; set; }
         public DbSet<CourseDepartment> CourseDepartments { get; set; }
+        public DbSet<Enrollment> Enrollments { get; set; }
+        public DbSet<EnrolledCourse> EnrolledCourses { get; set; }
 
 
     }

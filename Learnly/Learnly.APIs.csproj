@@ -18,6 +18,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\Learnly.Repository\Learnly.Repository.csproj" />
+    <ProjectReference Include="..\Learnly.Services\Learnly.Services.csproj" />
   </ItemGroup>
 
 </Project>

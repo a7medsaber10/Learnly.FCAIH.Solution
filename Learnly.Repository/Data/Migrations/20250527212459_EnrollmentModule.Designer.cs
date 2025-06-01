@@ -4,6 +4,7 @@ using Learnly.Repository.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Learnly.Repository.Data.Migrations
 {
     [DbContext(typeof(StoreContext))]
-    partial class StoreContextModelSnapshot : ModelSnapshot
+    [Migration("20250527212459_EnrollmentModule")]
+    partial class EnrollmentModule
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -45,13 +48,14 @@ namespace Learnly.Repository.Data.Migrations
                         .HasColumnType("int");
 
                     b.Property<string>("InstructorName")
+                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
 
                     b.HasIndex("EnrollmentId");
 
-                    b.ToTable("EnrolledCourses");
+                    b.ToTable("EnrolledCourse");
                 });
 
             modelBuilder.Entity("Learnly.Core.Enrollment_Aggregate.Enrollment", b =>
@@ -75,7 +79,7 @@ namespace Learnly.Repository.Data.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Enrollments");
+                    b.ToTable("Enrollment");
                 });
 
             modelBuilder.Entity("Learnly.Core.Entities.Course", b =>

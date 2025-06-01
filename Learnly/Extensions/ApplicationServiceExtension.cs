@@ -2,8 +2,10 @@
 using Learnly.APIs.Helpers;
 using Learnly.Core.Entities.Identity;
 using Learnly.Core.Repositories.Contract;
+using Learnly.Core.Services.Contract;
 using Learnly.Repository.Data.Identity;
 using Learnly.Repository.Repositories;
+using Learnly.Services;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 
@@ -13,11 +15,15 @@ namespace Learnly.APIs.Extensions
     {
         public static IServiceCollection AddApplicationServices(this IServiceCollection services) 
         {
-            services.AddScoped(typeof(IGenericRepository<>), typeof(GenericRepository<>));
+            //services.AddScoped(typeof(IGenericRepository<>), typeof(GenericRepository<>));
+            services.AddScoped(typeof(IUnitOfWork), typeof(UnitOfWork));
 
             services.AddScoped(typeof(ICourseSelectionRepository), typeof(CourseSelectionRepository));
 
             services.AddAutoMapper(typeof(MappingProfile));
+
+            services.AddScoped(typeof(IEnrollmentServicee), typeof(EnrollmentService));
+
 
             // Handling Vaidation Error
             services.Configure<ApiBehaviorOptions>(

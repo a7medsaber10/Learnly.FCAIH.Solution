@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using Learnly.APIs.DTOs;
+using Learnly.Core.Enrollment_Aggregate;
 using Learnly.Core.Entities;
 
 namespace Learnly.APIs.Helpers
@@ -15,6 +16,12 @@ namespace Learnly.APIs.Helpers
 
             CreateMap<CourseSelectionDTO, CourseSelection>().ReverseMap();
             CreateMap<SelectedCourseDTO, SelectedCourse>().ReverseMap();
+
+            CreateMap<Enrollment, EnrollmentToReturn_DTO>();
+
+            CreateMap<EnrolledCourse, EnrolledCourseDTO>()
+                .ForMember(d => d.CourseUrl, o => o.MapFrom<EnrolledCoursePicUrlResolver>());
+            
         }
     }
 }
