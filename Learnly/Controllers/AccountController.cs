@@ -2,9 +2,12 @@
 using Learnly.APIs.Errors;
 using Learnly.Core.Entities.Identity;
 using Learnly.Core.Services.Contract;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using System.Security.Claims;
 
 namespace Learnly.APIs.Controllers
 {
@@ -51,6 +54,11 @@ namespace Learnly.APIs.Controllers
         [HttpPost("register")]
         public async Task<ActionResult<UserDTO>> Register(RegisterDTO registerDTO)
         {
+            if(CheckEmailExist(registerDTO.Email).Result.Value)
+            {
+                return BadRequest(new ApiValidationErroResponse() { Errors = new string[] {"This Email already exists!"}});
+            }
+
             var user = new AppUser()
             {
                 DisplayName = registerDTO.DisplayName,
@@ -69,6 +77,28 @@ namespace Learnly.APIs.Controllers
                 Email = user.Email,
                 Token = await _authService.CreateTokenAsync(user, _userManager)
             });
+        }
+
+        [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
+        [HttpGet]
+        public async Task<ActionResult<UserDTO>> GetCurrentUser()
+        {
+            var email = User.FindFirstValue(ClaimTypes.Email) ?? string.Empty;
+
+            var user = await _userManager.FindByEmailAsync(email);
+
+            return Ok(new UserDTO()
+            {
+                DisplayName = user.DisplayName ?? string.Empty,
+                Email = user.Email ?? string.Empty,
+                Token = await _authService.CreateTokenAsync(user, _userManager)
+            });
+        }
+
+        [HttpGet("emailExists")]
+        public async Task<ActionResult<bool>> CheckEmailExist(string email)
+        {
+            return await _userManager.FindByEmailAsync(email) is not null;
         }
     }
 }
