@@ -79,7 +79,7 @@ namespace Learnly.APIs.Controllers
             });
         }
 
-        [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
+        [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme, Roles = "Admin")]
         [HttpGet]
         public async Task<ActionResult<UserDTO>> GetCurrentUser()
         {
@@ -95,10 +95,9 @@ namespace Learnly.APIs.Controllers
             });
         }
 
-        [HttpGet("emailExists")]
-        public async Task<ActionResult<bool>> CheckEmailExist(string email)
+        private async Task<ActionResult<bool>> CheckEmailExist(string email)
         {
-            return await _userManager.FindByEmailAsync(email) is not null;
+            return Ok(await _userManager.FindByEmailAsync(email) is not null);
         }
     }
 }

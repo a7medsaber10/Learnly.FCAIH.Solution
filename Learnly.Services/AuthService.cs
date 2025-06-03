@@ -28,7 +28,7 @@ namespace Learnly.Services
             {
                 new Claim(ClaimTypes.Name, user.DisplayName),
                 new Claim(ClaimTypes.Email, user.Email),
-                
+                new Claim(ClaimTypes.Role, user.Role)
             };
 
             var userRoles = await userManager.GetRolesAsync(user);

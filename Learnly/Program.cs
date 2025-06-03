@@ -7,6 +7,7 @@ using Learnly.Core.Repositories.Contract;
 using Learnly.Repository;
 using Learnly.Repository.Data;
 using Learnly.Repository.Data.Identity;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.AspNetCore.Mvc;
@@ -53,9 +54,9 @@ namespace Learnly
 
             builder.Services.AddIdentity<AppUser, IdentityRole>().AddEntityFrameworkStores<AppIdentityDbContext>();
 
-            builder.Services.AddAuthentication().AddJwtBearer("Bearer", options =>
+            builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme).AddJwtBearer(options =>
             {
-                options.TokenValidationParameters = new TokenValidationParameters()
+                options.TokenValidationParameters = new TokenValidationParameters
                 {
                     ValidateIssuer = true,
                     ValidIssuer = builder.Configuration["JWT:ValidIssuer"],
