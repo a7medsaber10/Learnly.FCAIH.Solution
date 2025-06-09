@@ -1,4 +1,5 @@
-﻿using Learnly.Core.Entities.Identity;
+﻿using Learnly.Core.Entities;
+using Learnly.Core.Entities.Identity;
 using Learnly.Core.Services.Contract;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.Configuration;
@@ -9,6 +10,7 @@ using System.IdentityModel.Tokens.Jwt;
 using System.Linq;
 using System.Security.Claims;
 using System.Text;
+using System.Text.Encodings.Web;
 using System.Threading.Tasks;
 
 namespace Learnly.Services
@@ -16,10 +18,14 @@ namespace Learnly.Services
     public class AuthService : IAuthService
     {
         private readonly IConfiguration _configuration;
+        private readonly UserManager<AppUser> _userManager;
+        private readonly IEmailService _emailService;
 
-        public AuthService(IConfiguration configuration)
+        public AuthService(IConfiguration configuration, UserManager<AppUser> userManager, IEmailService emailService)
         {
             _configuration = configuration;
+            _userManager = userManager;
+            _emailService = emailService;
         }
 
         public async Task<string> CreateTokenAsync(AppUser user, UserManager<AppUser> userManager)
@@ -49,6 +55,26 @@ namespace Learnly.Services
             );
 
             return new JwtSecurityTokenHandler().WriteToken(token);
+        }
+
+        public async Task SendPasswordResetLinkAsync(string email)
+        {
+            var user = await _userManager.FindByEmailAsync(email);
+            if (user == null) return; // Optional: avoid disclosing user existence
+
+            var token = await _userManager.GeneratePasswordResetTokenAsync(user);
+            var encodedToken = UrlEncoder.Default.Encode(token);
+
+            var resetLink = $"{_configuration["ApiBaseUrl"]}/api/reset-password?email={email}&token={encodedToken}";
+
+            var resetEmail = new Email
+            {
+                Recepients = email,
+                Subject = "Reset Your Password",
+                Body = $"Please reset your password by clicking here: {resetLink}"
+            };
+
+            await _emailService.SendEmailAsync(resetEmail);
         }
     }
 }

@@ -20,12 +20,13 @@ namespace Learnly.APIs.Controllers
         private readonly IGenericRepository<CourseCategory> _categoryRepository;
         private readonly IGenericRepository<CourseDepartment> _departmentRepository;
 
-        public CoursesController(
+        public CoursesController
+        (
                 IGenericRepository<Course> courseRepository, 
                 IMapper mapper,
                 IGenericRepository<CourseCategory> categoryRepository,
                 IGenericRepository<CourseDepartment> departmentRepository
-            )
+        )
         {
             _courseRepository = courseRepository;
             _mapper = mapper;

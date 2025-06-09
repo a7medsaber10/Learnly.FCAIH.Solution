@@ -1,5 +1,7 @@
 ﻿using Learnly.APIs.DTOs;
 using Learnly.APIs.Errors;
+using Learnly.APIs.Helpers;
+using Learnly.Core.Entities;
 using Learnly.Core.Entities.Identity;
 using Learnly.Core.Services.Contract;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
@@ -7,6 +9,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using System.Net;
 using System.Security.Claims;
 
 namespace Learnly.APIs.Controllers
@@ -51,6 +54,7 @@ namespace Learnly.APIs.Controllers
             }
         }
 
+
         [HttpPost("register")]
         public async Task<ActionResult<UserDTO>> Register(RegisterDTO registerDTO)
         {
@@ -79,8 +83,39 @@ namespace Learnly.APIs.Controllers
             });
         }
 
+        #region Forget & Reset Password
+
+
+        [HttpPost("forget-password")]
+        public async Task<ActionResult> ForgetPassword(ForgetPasswordDTO forgetPasswordDTO)
+        {
+            await _authService.SendPasswordResetLinkAsync(forgetPasswordDTO.Email);
+
+            return Ok("Password Reset Link Has been sent.");
+        }
+
+
+        [HttpPost("reset-password")]
+        public async Task<ActionResult> ResetPassword(ResetPasswordDTO dto)
+        {
+            var user = await _userManager.FindByEmailAsync(dto.Email);
+            if (user == null)
+                return BadRequest(new ApiResponse(400));
+
+            string decodedToken = WebUtility.UrlDecode(dto.Token);
+
+            var result = await _userManager.ResetPasswordAsync(user, decodedToken, dto.NewPassword);
+
+            if (!result.Succeeded)
+                return BadRequest(result.Errors.Select(e => e.Description));
+
+            return Ok("Password has been reset successfully.");
+        }
+        #endregion
+
+
         [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme, Roles = "Admin")]
-        [HttpGet]
+        [HttpGet("getCurrentUser")]
         public async Task<ActionResult<UserDTO>> GetCurrentUser()
         {
             var email = User.FindFirstValue(ClaimTypes.Email) ?? string.Empty;

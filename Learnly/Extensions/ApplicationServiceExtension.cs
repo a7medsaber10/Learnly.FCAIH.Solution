@@ -26,6 +26,9 @@ namespace Learnly.APIs.Extensions
 
             services.AddScoped(typeof(IAuthService), typeof(AuthService));
 
+            services.AddScoped(typeof(IEmailService), typeof(EmailService));
+
+
 
             // Handling Vaidation Error
             services.Configure<ApiBehaviorOptions>(
