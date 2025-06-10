@@ -115,7 +115,33 @@ namespace Learnly.APIs.Controllers
 
             await _userManager.UpdateAsync(user);
 
-            return Ok(new { Message = "Teacher Approved Successfully." });
+            var userToReturn = new UserDTO
+            {
+                DisplayName = user.DisplayName,
+                Email = user.Email,
+                Token = await _authService.CreateTokenAsync(user, _userManager, await _userManager.GetRolesAsync(user))
+            };
+
+            return Ok(new { Message = "Teacher Approved Successfully.", User = userToReturn });
+        }
+
+        [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme, Roles = "Admin")]
+        [HttpPost("reject-teacher")]
+        public async Task<ActionResult> RejectTeacher(string userEmail)
+        {
+            var user = await _userManager.FindByEmailAsync(userEmail);
+
+            if (user == null) return NotFound("User Not Found");
+
+            var roles = await _userManager.GetRolesAsync(user);
+
+            if (!roles.Contains("Teacher")) return BadRequest("User Is not A Teacher");
+
+            if (user.IsApproved) return BadRequest("User Is Already Accepted");
+
+            await _userManager.DeleteAsync(user);
+
+            return Ok(new { Message = "Teacher Rejected successfully." });
         }
 
 
@@ -149,6 +175,31 @@ namespace Learnly.APIs.Controllers
             return Ok("Password has been reset successfully.");
         }
         #endregion
+
+        [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme, Roles = "Admin,Student,Teacher")]
+        [HttpPost("change-password")]
+        public async Task<ActionResult> ChangePassword(ChangePasswordDTO changePasswordDTO)
+        {
+            var user = await _userManager.FindByEmailAsync(changePasswordDTO.Email);
+
+            if(user == null) return NotFound("User Not Found");
+
+            var result = await _userManager.ChangePasswordAsync(user, changePasswordDTO.OldPassword, changePasswordDTO.NewPassword);
+            if (!result.Succeeded) return BadRequest(new ApiResponse(400));
+
+            var userToReturn = new UserDTO
+            {
+                DisplayName = user.DisplayName,
+                Email = user.Email,
+                Token = await _authService.CreateTokenAsync(user, _userManager, await _userManager.GetRolesAsync(user))
+            };
+
+            return Ok(new { Message = "Password changed Successfully", User = userToReturn });
+        }
+
+
+
+
 
 
         [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme, Roles = "Admin")]
