@@ -4,6 +4,7 @@ using Learnly.Repository.Data.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Learnly.Repository.Identity.Migrations
 {
     [DbContext(typeof(AppIdentityDbContext))]
-    partial class AppIdentityDbContextModelSnapshot : ModelSnapshot
+    [Migration("20250609162347_AddIsApprovedProperty")]
+    partial class AddIsApprovedProperty
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -77,7 +80,7 @@ namespace Learnly.Repository.Identity.Migrations
                     b.Property<bool>("EmailConfirmed")
                         .HasColumnType("bit");
 
-                    b.Property<bool>("IsApproved")
+                    b.Property<bool?>("IsApproved")
                         .HasColumnType("bit");
 
                     b.Property<bool>("LockoutEnabled")
@@ -103,6 +106,10 @@ namespace Learnly.Repository.Identity.Migrations
                     b.Property<bool>("PhoneNumberConfirmed")
                         .HasColumnType("bit");
 
+                    b.Property<string>("Role")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<string>("SecurityStamp")
                         .HasColumnType("nvarchar(max)");
 
@@ -124,26 +131,6 @@ namespace Learnly.Repository.Identity.Migrations
                         .HasFilter("[NormalizedUserName] IS NOT NULL");
 
                     b.ToTable("AspNetUsers", (string)null);
-
-                    b.HasData(
-                        new
-                        {
-                            Id = "22930a4b-96b7-49ec-a5b8-c3aa100f11fe",
-                            AccessFailedCount = 0,
-                            ConcurrencyStamp = "78e08064-fae7-4ab9-be3b-76670d7f6ea3",
-                            DisplayName = "System Admin",
-                            Email = "admin@gmail.com",
-                            EmailConfirmed = true,
-                            IsApproved = false,
-                            LockoutEnabled = false,
-                            NormalizedEmail = "ADMIN@GMAIL.COM",
-                            NormalizedUserName = "ADMIN@GMAIL.COM",
-                            PasswordHash = "AQAAAAIAAYagAAAAEGm9cQqtKbleJ9VePwVSDixBaewc1OxveZBFjX2VROgAQUAREfoiUpV6UXoTQvhQgg==",
-                            PhoneNumberConfirmed = false,
-                            SecurityStamp = "acbce4b7-5b8a-4653-83a9-2fae72434ea4",
-                            TwoFactorEnabled = false,
-                            UserName = "admin@gmail.com"
-                        });
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRole", b =>
@@ -171,26 +158,6 @@ namespace Learnly.Repository.Identity.Migrations
                         .HasFilter("[NormalizedName] IS NOT NULL");
 
                     b.ToTable("AspNetRoles", (string)null);
-
-                    b.HasData(
-                        new
-                        {
-                            Id = "DDC16163-28DC-4325-BECE-56A2B5BBE8E0",
-                            Name = "Admin",
-                            NormalizedName = "ADMIN"
-                        },
-                        new
-                        {
-                            Id = "31C0AC99-29F4-4A55-AF0F-07402617FC47",
-                            Name = "Student",
-                            NormalizedName = "STUDENT"
-                        },
-                        new
-                        {
-                            Id = "C1DA0795-351E-45E3-8C4F-74DA1438BB50",
-                            Name = "Teacher",
-                            NormalizedName = "TEACHER"
-                        });
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
@@ -278,13 +245,6 @@ namespace Learnly.Repository.Identity.Migrations
                     b.HasIndex("RoleId");
 
                     b.ToTable("AspNetUserRoles", (string)null);
-
-                    b.HasData(
-                        new
-                        {
-                            UserId = "22930a4b-96b7-49ec-a5b8-c3aa100f11fe",
-                            RoleId = "DDC16163-28DC-4325-BECE-56A2B5BBE8E0"
-                        });
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserToken<string>", b =>

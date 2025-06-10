@@ -10,7 +10,7 @@ namespace Learnly.Core.Services.Contract
 {
     public interface IAuthService
     {
-        Task<string> CreateTokenAsync(AppUser user, UserManager<AppUser> userManager);
+        Task<string> CreateTokenAsync(AppUser user, UserManager<AppUser> userManager, IList<string> roles);
         Task SendPasswordResetLinkAsync(string email);
     }
 }

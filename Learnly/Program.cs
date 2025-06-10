@@ -106,6 +106,10 @@ namespace Learnly
 
             app.UseMiddleware<ExceptionMiddleWare>();
 
+            app.UseRateLimiter();
+
+            app.UseCors("CorsPolicy");
+
             // Configure the HTTP request pipeline.
             if (app.Environment.IsDevelopment())
             {
@@ -121,6 +125,8 @@ namespace Learnly
 
 
             app.UseHttpsRedirection();
+
+            app.UseAuthentication();
 
             app.UseAuthorization();
 

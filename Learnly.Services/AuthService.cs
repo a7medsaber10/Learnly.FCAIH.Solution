@@ -28,21 +28,23 @@ namespace Learnly.Services
             _emailService = emailService;
         }
 
-        public async Task<string> CreateTokenAsync(AppUser user, UserManager<AppUser> userManager)
+        public async Task<string> CreateTokenAsync(AppUser user, UserManager<AppUser> userManager, IList<string> roles)
         {
             var authClaims = new List<Claim>()
             {
                 new Claim(ClaimTypes.Name, user.DisplayName),
                 new Claim(ClaimTypes.Email, user.Email),
-                new Claim(ClaimTypes.Role, user.Role)
+                //new Claim(ClaimTypes.Role, user.Role)
             };
 
-            var userRoles = await userManager.GetRolesAsync(user);
+            authClaims.AddRange(roles.Select(role => new Claim(ClaimTypes.Role, role)));
 
-            foreach(var role in userRoles)
-            {
-                authClaims.Add(new Claim(ClaimTypes.Role, role));
-            }
+            //var userRoles = await userManager.GetRolesAsync(user);
+
+            //foreach(var role in userRoles)
+            //{
+            //    authClaims.Add(new Claim(ClaimTypes.Role, role));
+            //}
 
             var authKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_configuration["JWT:AuthKey"] ?? string.Empty));
 

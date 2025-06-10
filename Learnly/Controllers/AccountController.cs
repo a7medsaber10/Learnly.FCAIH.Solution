@@ -39,9 +39,15 @@ namespace Learnly.APIs.Controllers
 
             var result = await _signInManager.CheckPasswordSignInAsync(user, loginDTO.Password, false);
 
+            var roles = await _userManager.GetRolesAsync(user);
+
             if (result.Succeeded is false) 
             {
                 return Unauthorized(new ApiResponse(401));
+            }
+            else if(roles.Contains("Teacher") && !user.IsApproved)
+            {
+                return Unauthorized("Trainer Account is pending approval by admin.");
             }
             else
             {
@@ -49,14 +55,14 @@ namespace Learnly.APIs.Controllers
                 {
                     DisplayName = user.DisplayName,
                     Email = user.Email,
-                    Token = await _authService.CreateTokenAsync(user, _userManager)
+                    Token = await _authService.CreateTokenAsync(user, _userManager, roles)
                 });
             }
         }
 
 
         [HttpPost("register")]
-        public async Task<ActionResult<UserDTO>> Register(RegisterDTO registerDTO)
+        public async Task<ActionResult> Register(RegisterDTO registerDTO)
         {
             if(CheckEmailExist(registerDTO.Email).Result.Value)
             {
@@ -68,20 +74,51 @@ namespace Learnly.APIs.Controllers
                 DisplayName = registerDTO.DisplayName,
                 Email = registerDTO.Email,
                 UserName = registerDTO.Email.Split("@")[0],
-                PhoneNumber = registerDTO.PhoneNumber
+                PhoneNumber = registerDTO.PhoneNumber,
+                IsApproved = registerDTO.Role == "Teacher" ? false : true,
             };
 
             var result = await _userManager.CreateAsync(user, registerDTO.Password);
 
             if (result.Succeeded is false) return BadRequest(new ApiResponse(400));
 
-            return Ok(new UserDTO()
+            await _userManager.AddToRoleAsync(user, registerDTO.Role);
+
+            var userToReturn = new UserDTO()
             {
                 DisplayName = user.DisplayName,
                 Email = user.Email,
-                Token = await _authService.CreateTokenAsync(user, _userManager)
-            });
+                Token = await _authService.CreateTokenAsync(user, _userManager, await _userManager.GetRolesAsync(user))
+            };
+
+
+            var message = registerDTO.Role == "Teacher" 
+                ? "Registration Successful. Teachers Require Admin Approval." 
+                : "Registration Successful.";
+
+            return Ok(new { Message = message, User = userToReturn });
         }
+
+        [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme, Roles = "Admin")]
+        [HttpPost("approve-teacher")]
+        public async Task<ActionResult> ApproveTeacher(string userEmail)
+        {
+            var user = await _userManager.FindByEmailAsync(userEmail);
+
+            if (user == null) return NotFound("User Not Found");
+
+            var roles = await _userManager.GetRolesAsync(user);
+
+            if (!roles.Contains("Teacher")) return BadRequest("User Is not A Teacher");
+
+            user.IsApproved = true;
+
+            await _userManager.UpdateAsync(user);
+
+            return Ok(new { Message = "Teacher Approved Successfully." });
+        }
+
+
 
         #region Forget & Reset Password
 
@@ -122,11 +159,13 @@ namespace Learnly.APIs.Controllers
 
             var user = await _userManager.FindByEmailAsync(email);
 
+            var roles = await _userManager.GetRolesAsync(user);
+
             return Ok(new UserDTO()
             {
                 DisplayName = user.DisplayName ?? string.Empty,
                 Email = user.Email ?? string.Empty,
-                Token = await _authService.CreateTokenAsync(user, _userManager)
+                Token = await _authService.CreateTokenAsync(user, _userManager, roles)
             });
         }
 

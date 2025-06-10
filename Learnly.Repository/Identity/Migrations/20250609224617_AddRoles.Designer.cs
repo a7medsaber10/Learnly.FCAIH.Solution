@@ -4,6 +4,7 @@ using Learnly.Repository.Data.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Learnly.Repository.Identity.Migrations
 {
     [DbContext(typeof(AppIdentityDbContext))]
-    partial class AppIdentityDbContextModelSnapshot : ModelSnapshot
+    [Migration("20250609224617_AddRoles")]
+    partial class AddRoles
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -128,9 +131,9 @@ namespace Learnly.Repository.Identity.Migrations
                     b.HasData(
                         new
                         {
-                            Id = "22930a4b-96b7-49ec-a5b8-c3aa100f11fe",
+                            Id = "0BE7B103-1D31-420F-853C-EE3BC9236FB4",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "78e08064-fae7-4ab9-be3b-76670d7f6ea3",
+                            ConcurrencyStamp = "961d70ce-39b5-4548-86cc-a996e4d211f2",
                             DisplayName = "System Admin",
                             Email = "admin@gmail.com",
                             EmailConfirmed = true,
@@ -138,9 +141,9 @@ namespace Learnly.Repository.Identity.Migrations
                             LockoutEnabled = false,
                             NormalizedEmail = "ADMIN@GMAIL.COM",
                             NormalizedUserName = "ADMIN@GMAIL.COM",
-                            PasswordHash = "AQAAAAIAAYagAAAAEGm9cQqtKbleJ9VePwVSDixBaewc1OxveZBFjX2VROgAQUAREfoiUpV6UXoTQvhQgg==",
+                            PasswordHash = "AQAAAAIAAYagAAAAEArs8pUic5SrjLJs3ozG8jQ2fmLqbbfMNulVi8yZFYzMxFqLKoxhMj4eg7ySyvf9BA==",
                             PhoneNumberConfirmed = false,
-                            SecurityStamp = "acbce4b7-5b8a-4653-83a9-2fae72434ea4",
+                            SecurityStamp = "48f0ce8e-22f1-4f09-913d-6f6e27708e19",
                             TwoFactorEnabled = false,
                             UserName = "admin@gmail.com"
                         });
@@ -282,7 +285,7 @@ namespace Learnly.Repository.Identity.Migrations
                     b.HasData(
                         new
                         {
-                            UserId = "22930a4b-96b7-49ec-a5b8-c3aa100f11fe",
+                            UserId = "0BE7B103-1D31-420F-853C-EE3BC9236FB4",
                             RoleId = "DDC16163-28DC-4325-BECE-56A2B5BBE8E0"
                         });
                 });

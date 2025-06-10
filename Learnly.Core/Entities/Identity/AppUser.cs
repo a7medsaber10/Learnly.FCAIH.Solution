@@ -13,6 +13,9 @@ namespace Learnly.Core.Entities.Identity
 
         public Address Address { get; set; }
 
-        public string Role { get; set; } = string.Empty;
+        public bool IsApproved { get; set; }
+
+
+
     }
 }
