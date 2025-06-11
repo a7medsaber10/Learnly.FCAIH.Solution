@@ -73,16 +73,43 @@ namespace Learnly.APIs.Controllers
             }
         }
 
-        [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme, Roles = "Teacher")]
+        [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme, Roles = "Admin, Teacher")]
         [HttpPost("create-course")]
-        public async Task<ActionResult<CreateCourseDTO>> CreateCourseAsync(CourseDTO courseDTO)
+        public async Task<ActionResult<CreateCourseDTO>> CreateCourse(CourseDTO courseDTO)
         {
-            var newCourse = await _courseService
-                .CreateCourseAsync(courseDTO.Name, courseDTO.Description, courseDTO.PictureUrl, courseDTO.CategoryId, courseDTO.DepartmentId);
+            var newCourse = await _courseService.CreateCourseAsync
+                (
+                    courseDTO.Name,
+                    courseDTO.Description,
+                    courseDTO.PictureUrl,
+                    courseDTO.CategoryId,
+                    courseDTO.DepartmentId
+                );
 
             if (newCourse is null) return BadRequest(new ApiResponse(400));
             return Ok(_mapper.Map<Course, CreateCourseDTO>(newCourse));
         }
+
+
+        [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme, Roles = "Admin, Teacher")]
+        [HttpPut("update-course/{id}")]
+        public async Task<ActionResult<CreateCourseDTO>> UpdateCourse(int id,CourseDTO courseDTO)
+        {
+            var spec = new CourseWithDeptartmentAndCategorySpec(id);
+            var myCourse = await _courseRepository.GetWithSpecAsync(spec);
+
+
+            var mappedCourse = _mapper.Map(courseDTO, myCourse);
+
+            var course = await _courseService.UpdateCourseAsync(mappedCourse);
+
+            if (course == null)  return NotFound(new ApiResponse(404));
+
+            return Ok(_mapper.Map<Course, CreateCourseDTO>(course));
+        }
+
+
+
 
         [HttpGet("departments")]
         public async Task<ActionResult<IEnumerable<CourseDepartment>>> GetDepartments()

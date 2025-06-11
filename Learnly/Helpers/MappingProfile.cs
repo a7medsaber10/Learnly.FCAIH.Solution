@@ -12,7 +12,12 @@ namespace Learnly.APIs.Helpers
             CreateMap<Course, CourseDTO>()
                 .ForMember(c => c.Department, o => o.MapFrom(s => s.Department.Name))
                 .ForMember(c => c.Category, o => o.MapFrom(s => s.Category.Name))
-                .ForMember(c => c.PictureUrl, o => o.MapFrom<CoursePictureUrlResolver>()).ReverseMap();
+                .ForMember(c => c.PictureUrl, o => o.MapFrom<CoursePictureUrlResolver>());
+
+            CreateMap<CourseDTO, Course>()
+                .ForMember(dest => dest.Id, opt => opt.Ignore())
+                .ForMember(dest => dest.Category, opt => opt.Ignore())
+                .ForMember(dest => dest.Department, opt => opt.Ignore());
 
             CreateMap<CourseSelectionDTO, CourseSelection>().ReverseMap();
             CreateMap<SelectedCourseDTO, SelectedCourse>().ReverseMap();

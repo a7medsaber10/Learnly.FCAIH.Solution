@@ -11,8 +11,8 @@ namespace Learnly.Core.Services.Contract
     {
         Task<Course> CreateCourseAsync(string name, string desc, string picUrl, int catId, int deptId);
 
-        Task<Course> UpdateCourseAsync(string email);
+        Task<Course> UpdateCourseAsync(Course course);
 
-        Task<Course> DeleteCourseAsync(string email);
+        Task<Course> DeleteCourseAsync(int id);
     }
 }
