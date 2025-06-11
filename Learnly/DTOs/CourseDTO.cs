@@ -1,4 +1,8 @@
-﻿namespace Learnly.APIs.DTOs
+﻿using Learnly.Core.Entities.Identity;
+using Learnly.Core.Entities;
+using System.ComponentModel.DataAnnotations.Schema;
+
+namespace Learnly.APIs.DTOs
 {
     public class CourseDTO
     {
@@ -13,5 +17,13 @@
 
         public int DepartmentId { get; set; }
         public string Department { get; set; }
+
+        //public string StudentId { get; set; }
+
+        //public string Student { get; set; }
+
+        //public string TeacherId { get; set; }
+
+        //public string Teacher { get; set; }
     }
 }

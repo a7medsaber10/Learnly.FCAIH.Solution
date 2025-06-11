@@ -14,6 +14,10 @@ namespace Learnly.Core.Specifications.CourseSpecifications
 
         public int? CategoryId { get; set; }
 
+        //public string TeacherId { get; set; }
+
+        //public string StudentId { get; set; }
+
 
         public const int MaxPageSize = 10;
         private int pageSize;

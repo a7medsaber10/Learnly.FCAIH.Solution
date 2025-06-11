@@ -21,6 +21,8 @@ namespace Learnly.Core.Specifications.CourseSpecifications
         {
             Includes.Add(c => c.Department);
             Includes.Add(c => c.Category);
+            //Includes.Add(c => c.Student);
+            //Includes.Add(c=>c.Teacher);
 
             if(!string.IsNullOrEmpty(parameters.Sort))
             {

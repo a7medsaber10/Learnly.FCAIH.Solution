@@ -28,6 +28,8 @@ namespace Learnly.Repository.Data
         public DbSet<CourseCategory> CourseCategories { get; set; }
         public DbSet<CourseDepartment> CourseDepartments { get; set; }
         public DbSet<Enrollment> Enrollments { get; set; }
+
+        
         public DbSet<EnrolledCourse> EnrolledCourses { get; set; }
 
 

@@ -1,4 +1,5 @@
-﻿using Learnly.Core.Entities.Identity;
+﻿using Learnly.Core.Entities;
+using Learnly.Core.Entities.Identity;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
@@ -17,8 +18,12 @@ namespace Learnly.Repository.Data.Identity
             
         }
 
+        
+
         protected override void OnModelCreating(ModelBuilder builder)
         {
+
+
 
 
             var adminRoleId = "DDC16163-28DC-4325-BECE-56A2B5BBE8E0"; // Fixed GUID

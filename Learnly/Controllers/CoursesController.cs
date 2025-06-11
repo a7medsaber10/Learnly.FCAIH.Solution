@@ -2,8 +2,10 @@
 using Learnly.APIs.DTOs;
 using Learnly.APIs.Errors;
 using Learnly.APIs.Helpers;
+using Learnly.Core.Enrollment_Aggregate;
 using Learnly.Core.Entities;
 using Learnly.Core.Repositories.Contract;
+using Learnly.Core.Services.Contract;
 using Learnly.Core.Specifications;
 using Learnly.Core.Specifications.CourseSpecifications;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
@@ -19,19 +21,22 @@ namespace Learnly.APIs.Controllers
         private readonly IMapper _mapper;
         private readonly IGenericRepository<CourseCategory> _categoryRepository;
         private readonly IGenericRepository<CourseDepartment> _departmentRepository;
+        private readonly ICourseService _courseService;
 
         public CoursesController
         (
                 IGenericRepository<Course> courseRepository, 
                 IMapper mapper,
                 IGenericRepository<CourseCategory> categoryRepository,
-                IGenericRepository<CourseDepartment> departmentRepository
+                IGenericRepository<CourseDepartment> departmentRepository,
+                ICourseService courseService
         )
         {
             _courseRepository = courseRepository;
             _mapper = mapper;
             _categoryRepository = categoryRepository;
             _departmentRepository = departmentRepository;
+            _courseService = courseService;
         }
 
         [HttpGet]
@@ -66,6 +71,17 @@ namespace Learnly.APIs.Controllers
             {
                 return Ok(_mapper.Map<Course, CourseDTO>(course));
             }
+        }
+
+        [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme, Roles = "Teacher")]
+        [HttpPost("create-course")]
+        public async Task<ActionResult<CreateCourseDTO>> CreateCourseAsync(CourseDTO courseDTO)
+        {
+            var newCourse = await _courseService
+                .CreateCourseAsync(courseDTO.Name, courseDTO.Description, courseDTO.PictureUrl, courseDTO.CategoryId, courseDTO.DepartmentId);
+
+            if (newCourse is null) return BadRequest(new ApiResponse(400));
+            return Ok(_mapper.Map<Course, CreateCourseDTO>(newCourse));
         }
 
         [HttpGet("departments")]

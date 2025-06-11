@@ -5,25 +5,25 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Learnly.Core.Enrollment_Aggregate
-{
-    public class EnrolledCourse : BaseEntity
+    namespace Learnly.Core.Enrollment_Aggregate
     {
-        public EnrolledCourse(int courseId, string courseName, string courseUrl)
+        public class EnrolledCourse : BaseEntity
         {
-            CourseId = courseId;
-            CourseName = courseName;
-            CourseUrl = courseUrl;
-        }
+            public EnrolledCourse(int courseId, string courseName, string courseUrl)
+            {
+                CourseId = courseId;
+                CourseName = courseName;
+                CourseUrl = courseUrl;
+            }
 
-        public EnrolledCourse()
-        {
+            public EnrolledCourse()
+            {
             
-        }
+            }
 
-        public int CourseId { get; set; }
-        public string CourseName { get; set; }
-        public string CourseUrl { get; set; }
-        public string? InstructorName { get; set; }
+            public int CourseId { get; set; }
+            public string CourseName { get; set; }
+            public string CourseUrl { get; set; }
+            public string? InstructorName { get; set; }
+        }
     }
-}

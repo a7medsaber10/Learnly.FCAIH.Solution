@@ -9,6 +9,7 @@ namespace Learnly.Core.Services.Contract
 {
     public interface IEnrollmentServicee
     {
+
         Task<Enrollment?> CreateEnrollmentAsync(string studentEmail, string courseSelectionId);
 
         Task<IReadOnlyList<Enrollment>> GetEnrollmentsForStudentAsync(string studentEmail);

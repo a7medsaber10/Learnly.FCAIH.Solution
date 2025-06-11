@@ -15,7 +15,7 @@ namespace Learnly.Core.Entities.Identity
 
         public bool IsApproved { get; set; }
 
-
+        public List<Course>? Courses { get; set; }
 
     }
 }

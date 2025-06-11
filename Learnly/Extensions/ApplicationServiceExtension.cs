@@ -24,6 +24,9 @@ namespace Learnly.APIs.Extensions
 
             services.AddScoped(typeof(IEnrollmentServicee), typeof(EnrollmentService));
 
+            services.AddScoped(typeof(ICourseService), typeof(CourseService));
+
+
             services.AddScoped(typeof(IAuthService), typeof(AuthService));
 
             services.AddScoped(typeof(IEmailService), typeof(EmailService));
