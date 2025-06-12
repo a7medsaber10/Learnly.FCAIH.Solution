@@ -34,9 +34,15 @@ namespace Learnly.Services
             return course;
         }
 
-        public Task<Course> DeleteCourseAsync(int id)
+        public async Task<Course> DeleteCourseAsync(Course course)
         {
-            throw new NotImplementedException();
+            _unitOfWork.Repository<Course>().DeleteAsync(course);
+
+            var result = await _unitOfWork.CompleteAsync();
+
+            if (result <= 0) return null;
+
+            return course;
         }
 
         public async Task<Course> UpdateCourseAsync(Course course)

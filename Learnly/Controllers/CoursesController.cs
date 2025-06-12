@@ -98,6 +98,10 @@ namespace Learnly.APIs.Controllers
             var spec = new CourseWithDeptartmentAndCategorySpec(id);
             var myCourse = await _courseRepository.GetWithSpecAsync(spec);
 
+            if (myCourse == null)
+            {
+                return NotFound(new ApiResponse(404));
+            }
 
             var mappedCourse = _mapper.Map(courseDTO, myCourse);
 
@@ -108,7 +112,22 @@ namespace Learnly.APIs.Controllers
             return Ok(_mapper.Map<Course, CreateCourseDTO>(course));
         }
 
+        [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme, Roles = "Admin, Teacher")]
+        [HttpDelete("delete-course/{id}")]
+        public async Task<ActionResult> DeleteCourse(int id)
+        {
+            var spec = new CourseWithDeptartmentAndCategorySpec(id);
+            var myCourse = await _courseRepository.GetWithSpecAsync(spec);
 
+            if (myCourse == null)
+            {
+                return NotFound(new ApiResponse(404));
+            }
+
+            await _courseService.DeleteCourseAsync(myCourse);
+
+            return Ok("Course Deleted Successfully.");
+        }
 
 
         [HttpGet("departments")]
